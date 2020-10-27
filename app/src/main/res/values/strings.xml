@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">imglike</string>
+    <string name="preference_file_key">key_value_storage</string>
+</resources>

@@ -9,6 +9,41 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public class ImageLoader {
+    private static final List<ImageData> HARDCODED_IMAGES = new ArrayList<>(30);
+
+    static {
+        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
+        HARDCODED_IMAGES.add(new ImageData(null, 880, 1080, 1620, "OQZUi9dVsOqU0UAvATS1Nqhj8V8KazN4NNIQWBWEWxQ"));
+        HARDCODED_IMAGES.add(new ImageData(null, 1049, 1080, 1620, "YiRBV_gLrTmDmnZLmqnUNcfY2XMDW9Xu0xtbkHRdzkU"));
+        HARDCODED_IMAGES.add(new ImageData(null, 202, 1080, 1620, "EIUOBbRgX3E4vFgc1H-GqBRynzsKmiHU4IGhXGi99B4"));
+        HARDCODED_IMAGES.add(new ImageData(null, 16, 1080, 1620, "6sE-WtmGYYgTXKKfAQbNQiYYX_zKJuS28YYx249EXEg"));
+        HARDCODED_IMAGES.add(new ImageData(null, 344, 1080, 1620, "K8UPPkZa346ipBYyqNJl7WOUI9icQeKr7Ct5pTN_5L8"));
+        HARDCODED_IMAGES.add(new ImageData(null, 931, 1080, 1620, "xRvBwUc_bw3xrneshRztxVdIfnYOciZgZzWaWUQGHls"));
+        HARDCODED_IMAGES.add(new ImageData(null, 145, 1080, 1620, "eNYSY-Qzevl1UU9m7_lM9cgoAeU38sqjXwdb2xJalOw"));
+        HARDCODED_IMAGES.add(new ImageData(null, 933, 1080, 1620, "gIQzHZ2B6V2A4vM5WtEOVL_TdOelRb5PA2bIUAF32qg"));
+        HARDCODED_IMAGES.add(new ImageData(null, 41, 1080, 1620, "vC48j9OBMcdVgk2vqaziNf-lMBNVZm6AVlzGf2t9hfo"));
+        HARDCODED_IMAGES.add(new ImageData(null, 502, 1080, 1620, "xa90uEyoE6dBbr2oAjfbwWjSaX_mG4csWluBCDWB1fM"));
+        HARDCODED_IMAGES.add(new ImageData(null, 739, 1080, 1620, "mBBqF9FP_Izvy14utJVVxl2ykbIO307JCHU1KmlKk0U"));
+        HARDCODED_IMAGES.add(new ImageData(null, 433, 1080, 1620, "wcV6dSr7FdMuqkgo5DNtkVDnuDvtb8vj6SLLDcZLx2M"));
+        HARDCODED_IMAGES.add(new ImageData(null, 822, 1080, 1620, "Eg_XmPghEg9UtOt-cTUhuGNTd3xXL89czxyTz5UDq1U"));
+        HARDCODED_IMAGES.add(new ImageData(null, 361, 1080, 1620, "bchfqzoGnvwdMvpWCt9ZHNvT-Wvi2nO4X43MTqbXcFQ"));
+        HARDCODED_IMAGES.add(new ImageData(null, 993, 1080, 1620, "GnCR-SMXiAtZbDrV7PhyXzs0aExsc-uXlAYxwEu6pFw"));
+        HARDCODED_IMAGES.add(new ImageData(null, 383, 1080, 1620, "X3C5yr69uyLi5NSSI-5iSlLXsT2wArWA5yqmjUeLZpE"));
+        HARDCODED_IMAGES.add(new ImageData(null, 900, 1080, 1620, "T1o28Ap_Rmf6lMVboR9Cl7Dpl2SeoAVJi3J0SRN6UdA"));
+        HARDCODED_IMAGES.add(new ImageData(null, 130, 1080, 1620, "0n1BLxOi4qd-RbqO__tjtXRolaxPmQbMz34ZsDa78ak"));
+        HARDCODED_IMAGES.add(new ImageData(null, 980, 1080, 1620, "yS1_s4AhNnqT5pKyiChLb-zItuow04k7NgR3nCuLc2g"));
+        HARDCODED_IMAGES.add(new ImageData(null, 975, 1080, 1620, "6Sp78D6qGpsxipmNsKgxJfgCO2VmOsOpD_5KFmIBztg"));
+        HARDCODED_IMAGES.add(new ImageData(null, 637, 1080, 1620, "C-n3rYi0_8wjubkvdSgrMWIiRCJix1Ku48jAEGBpGas"));
+        HARDCODED_IMAGES.add(new ImageData(null, 959, 1080, 1620, "duMpDLjSPv3cX9G4S7fsIem3rs0Xvhevm8FsDHVsr68"));
+        HARDCODED_IMAGES.add(new ImageData(null, 813, 1080, 1620, "j9lo6q_wtC4dn0KWYLwHugR9u1nark266nu--jkBEpU"));
+        HARDCODED_IMAGES.add(new ImageData(null, 388, 1080, 1620, "YHqylo4-IOFxIzq9wmDsCLp7ZR3_vdpVn397j6Xrhv0"));
+        HARDCODED_IMAGES.add(new ImageData(null, 166, 1080, 1620, "MI2AQJwxqrZxxeSgLehkwteqVBLEb6spjW1GtmoFMyc"));
+        HARDCODED_IMAGES.add(new ImageData(null, 617, 1080, 1620, "n--z6BM1r1OetJVT3E5zs6zbM4mD4MRrLOKde4DEwyI"));
+        HARDCODED_IMAGES.add(new ImageData(null, 325, 1080, 1620, "HRAzFYkfK_b005v7Lmy6z01ZeMXGAJ0oi24My5SNoJo"));
+        HARDCODED_IMAGES.add(new ImageData(null, 266, 1080, 1620, "dS1X9SaDx4GXwjYq5l7nTHtPPzLUuaj5bUImnJenqBg"));
+        HARDCODED_IMAGES.add(new ImageData(null, 405, 1080, 1620, "U0U6SN_8Oc62NavsUgDpGXLxLuK-4AB6XnI3W-AE218"));
+    }
+
     private final String RANDOM_IMAGE_URL_PATTERN = "https://picsum.photos/%d/%d";
     private final int width;
     private final int height;
@@ -19,8 +54,9 @@ public class ImageLoader {
             .writeTimeout(1, TimeUnit.MINUTES)
             .build();
     private final Request randomRequest;
+    int idx = 0;
     private Request storedRequest;
-//1080; 1620
+
     public ImageLoader(int width) {
         this.width = width;
         this.height = (int) (1.5 * width);
@@ -31,45 +67,9 @@ public class ImageLoader {
                 .build();
     }
 
-    private static List<ImageData> HARDCODED_IMAGES = new ArrayList<>(30);
-    static {
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 880, 1080, 1620, "OQZUi9dVsOqU0UAvATS1Nqhj8V8KazN4NNIQWBWEWxQ"));
-        HARDCODED_IMAGES.add(new ImageData(null, 1049, 1080, 1620, "YiRBV_gLrTmDmnZLmqnUNcfY2XMDW9Xu0xtbkHRdzkU"));
-        HARDCODED_IMAGES.add(new ImageData(null, 202, 1080, 1620, "EIUOBbRgX3E4vFgc1H-GqBRynzsKmiHU4IGhXGi99B4"));
-        HARDCODED_IMAGES.add(new ImageData(null, 16, 1080, 1620, "6sE-WtmGYYgTXKKfAQbNQiYYX_zKJuS28YYx249EXEg"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-        HARDCODED_IMAGES.add(new ImageData(null, 229, 1080, 1620, "9yiDQ4TOS9U7eUbdVhWbAtIUwhhKspOkGGCsMkvgW2w"));
-    }
-
-    int idx = 0;
-
     public List<ImageData> getNext5() {
         List<ImageData> dataList = HARDCODED_IMAGES.subList(idx, idx + 5);
-        idx+=5;
+        idx += 5;
         List<ImageData> images = Collections.emptyList();
         if (!dataList.isEmpty()) {
             ExecutorService pool = Executors.newFixedThreadPool(dataList.size());

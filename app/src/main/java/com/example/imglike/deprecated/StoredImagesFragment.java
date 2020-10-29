@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Deprecated
 public class StoredImagesFragment extends Fragment {
-    private final LinkedList<ImageDataWrapper> imagesList = new LinkedList<>();
+    /*private final LinkedList<ImageDataWrapper> imagesList = new LinkedList<>();
     private RecyclerView mRecyclerView;
     private ImageListAdapter mAdapter;
     private ImageLoader imageLoader;
@@ -95,5 +95,5 @@ public class StoredImagesFragment extends Fragment {
         return imageDataList.stream().map(imageData -> new ImageDataWrapper(imageData,
                 new SaveLikedState(sharedPreferences, imageData.getImageId(), imageData.getHmac())))
                 .collect(Collectors.toList());
-    }
+    }*/
 }

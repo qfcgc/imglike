@@ -1,11 +1,15 @@
 package com.example.imglike;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +19,8 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MainActivity extends AppCompatActivity {
     private final LinkedList<ImageDataWrapper> imagesList = new LinkedList<>();
@@ -98,5 +104,26 @@ public class MainActivity extends AppCompatActivity {
     private List<ImageDataWrapper> wrapImageData(List<ImageData> imageDataList) {
         return imageDataList.stream().map(imageData -> new ImageDataWrapper(imageData,
                 new SaveLikedState(sharedPreferences, imageData.getImageId(), imageData.getHmac()))).collect(Collectors.toList());
+    }
+
+    public void launchSecondActivity(View view) {
+//        String message = mMessageEditText.getText().toString();
+
+        Intent intent = new Intent(this, ImageActivity.class);
+//        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivityForResult(intent, 1);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                boolean reply =
+                        data.getBooleanExtra(ImageActivity.EXTRA_REPLY, false);
+
+            }
+        }
     }
 }

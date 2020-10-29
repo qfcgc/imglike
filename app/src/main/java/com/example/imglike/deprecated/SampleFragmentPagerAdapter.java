@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 @Deprecated
-public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
-    final int PAGE_COUNT = 2;
+public class SampleFragmentPagerAdapter /*extends FragmentPagerAdapter*/ {
+    /*final int PAGE_COUNT = 2;
     private String tabTitles[] = new String[] { "Random", "Liked" };
     private Context context;
 
@@ -31,5 +31,5 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override public CharSequence getPageTitle(int position) {
         // генерируем заголовок в зависимости от позиции
         return tabTitles[position];
-    }
+    }*/
 }

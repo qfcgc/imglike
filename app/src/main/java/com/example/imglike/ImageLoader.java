@@ -82,6 +82,20 @@ public class ImageLoader {
                 .build();
     }
 
+    public ImageData loadImageData(int id, String hmac) {
+        Callable<ImageData> callable = new StoredImageLoadingCallable(client, id, width, height, hmac);
+        Future<ImageData> future = Executors.newSingleThreadExecutor().submit(callable);
+        try {
+            ImageData imageData = future.get();
+            return imageData;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<ImageData> getNext5() {
         if (idx + 5 >= HARDCODED_IMAGES.size()) {
             return getRandomImages(5);

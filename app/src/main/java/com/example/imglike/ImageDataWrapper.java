@@ -1,11 +1,25 @@
 package com.example.imglike;
 
-public class ImageDataWrapper {
-    private final ImageData imageData;
-    private final SaveLikedState saveLikedState;
+import java.io.Serializable;
+
+public class ImageDataWrapper implements Serializable {
+    private ImageData imageData;
+    private SaveLikedState saveLikedState;
+
+    public ImageDataWrapper() {
+
+    }
 
     public ImageDataWrapper(ImageData imageData, SaveLikedState saveLikedState) {
         this.imageData = imageData;
+        this.saveLikedState = saveLikedState;
+    }
+
+    public void setImageData(ImageData imageData) {
+        this.imageData = imageData;
+    }
+
+    public void setSaveLikedState(SaveLikedState saveLikedState) {
         this.saveLikedState = saveLikedState;
     }
 

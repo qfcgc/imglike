@@ -4,12 +4,17 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import androidx.annotation.NonNull;
 
-public class ImageData {
-    private final int imageId;
-    private final String hmac;
-    private final Bitmap data;
-    private final int width;
-    private final int height;
+import java.io.Serializable;
+
+public class ImageData implements Serializable {
+    private int imageId;
+    private String hmac;
+    private Bitmap data;
+    private int width;
+    private int height;
+
+    public ImageData() {
+    }
 
     public ImageData(Bitmap data, int imageId, int width, int height, String hmac) {
         this.data = data;
@@ -17,6 +22,26 @@ public class ImageData {
         this.width = width;
         this.height = height;
         this.hmac = hmac;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
+    }
+
+    public void setHmac(String hmac) {
+        this.hmac = hmac;
+    }
+
+    public void setData(Bitmap data) {
+        this.data = data;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public int getImageId() {

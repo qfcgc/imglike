@@ -3,18 +3,34 @@ package com.example.imglike;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SaveLikedState {
-    private final SharedPreferences sharedPreferences;
-    private final String id;
-    private final String hmac;
+public class SaveLikedState implements Serializable {
+    private SharedPreferences sharedPreferences;
+    private String id;
+    private String hmac;
+
+    public SaveLikedState() {
+    }
 
     public SaveLikedState(SharedPreferences sharedPreferences, int id, String hmac) {
         this.sharedPreferences = sharedPreferences;
         this.id = String.valueOf(id);
+        this.hmac = hmac;
+    }
+
+    public void setSharedPreferences(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setHmac(String hmac) {
         this.hmac = hmac;
     }
 

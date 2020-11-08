@@ -1,7 +1,11 @@
 package com.example.imglike;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +78,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
         public ImageViewHolder(View itemView, MainActivity mainActivity, ImageListAdapter adapter) {
             super(itemView);
             this.imageItemView = itemView.findViewById(R.id.image);
+            this.imageItemView.setOnClickListener(this::imageClickListener);
             this.mainActivity = mainActivity;
             this.likeView = itemView.findViewById(R.id.image_like);
             this.mAdapter = adapter;
@@ -118,6 +123,24 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
                 likeView.setImageResource(R.drawable.ic_like_disable);
 //                likedCachedValue = false;
             }
+        }
+
+        private void imageClickListener(View v)
+        {
+//            ActivityOptions options
+//                    = ActivityOptions.makeSceneTransitionAnimation(mainActivity,
+//                    new Pair<>(itemView.findViewById(R.id.image),
+//                            mainActivity.getString(R.string.image_transition)),
+//                    new Pair<>(itemView.findViewById(R.id.image_like), mainActivity.getString(R.string.image_like_transition))
+//            );
+
+            Bundle bundle = new Bundle();
+            Intent intent = new Intent(mainActivity, ImageActivity.class);
+            intent.putExtra("imageId", imageDataWrapper.getImageData().getImageId());
+            intent.putExtra("width", imageDataWrapper.getImageData().getWidth());
+            intent.putExtra("hmac", imageDataWrapper.getImageData().getHmac());
+            intent.putExtra("liked", imageDataWrapper.getSaveLikedState().getLiked());
+            mainActivity.startActivityForResult(intent, 10, bundle);
         }
     }
 }

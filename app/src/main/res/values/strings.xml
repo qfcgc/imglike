@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">imglike</string>
     <string name="preference_file_key">key_value_storage</string>
+    <string name="partners">Partners</string>
+    <string name="app_icon">App icon</string>
+    <string name="app_name_stub">App name stub</string>
+    <string name="app_description_stub">App description stub: application is very interesting and useful</string>
 </resources>

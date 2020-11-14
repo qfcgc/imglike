@@ -6,9 +6,9 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
-import android.view.View;
+import android.view.*;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -118,5 +118,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode,int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        boolean res = super.onCreateOptionsMenu(menu);
+        menu.clear();
+        new MenuInflater(getApplicationContext()).inflate(R.menu.right_menu, menu);
+        return res;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        boolean res = super.onOptionsItemSelected(item);
+
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent(this, PartnersActivity.class);
+        startActivityForResult(intent, 10, bundle);
+
+        return res;
     }
 }

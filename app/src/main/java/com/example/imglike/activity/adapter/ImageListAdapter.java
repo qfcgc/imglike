@@ -14,6 +14,7 @@ import com.example.imglike.R;
 import com.example.imglike.activity.ImageActivity;
 import com.example.imglike.activity.MainActivity;
 import com.example.imglike.model.ImageData;
+import com.example.imglike.service.BitmapIntentHelperUtil;
 import com.example.imglike.service.ImageLikedStatusUtilService;
 
 import java.io.ByteArrayOutputStream;
@@ -25,7 +26,6 @@ import java.util.List;
 public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.ImageViewHolder> {
     private final List<ImageData> mImageList;
     private final LayoutInflater mInflater;
-    private final List<ImageViewHolder> holders = new LinkedList<>();
     private final MainActivity mainActivity;
 
     public ImageListAdapter(MainActivity context,
@@ -40,7 +40,6 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View mItemView = mInflater.inflate(R.layout.image_layout, parent, false);
         ImageViewHolder imageViewHolder = new ImageViewHolder(mItemView, mainActivity);
-        holders.add(imageViewHolder);
         return imageViewHolder;
     }
 
@@ -48,7 +47,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         ImageData imageData = mImageList.get(position);
         holder.imageItemView.setImageBitmap(imageData.getData());
-        holder.setImages(mImageList); //todo check if we need it
+        holder.setImages(mImageList);
         holder.setImage(imageData);
         holder.reloadLikedState();
     }
@@ -110,25 +109,8 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
 
             Intent intent = new Intent(mainActivity, ImageActivity.class);
             intent.putExtra("id", image.getMetadata().getId());
-            saveBitmap(intent);
+            BitmapIntentHelperUtil.storeBitmap(image.getMetadata().getId(), image.getData());
             mainActivity.startActivityForResult(intent, 10, bundle);
-        }
-
-        private void saveBitmap(Intent intent) {
-            try {
-                //Write file
-                String filename = "bitmap.png";
-                FileOutputStream stream = mainActivity.openFileOutput(filename, Context.MODE_PRIVATE);
-                image.getData().compress(Bitmap.CompressFormat.PNG, 100, stream);
-
-                //Cleanup
-                stream.close();
-
-                //Pop intent
-                intent.putExtra("image", filename);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 }

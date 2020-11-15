@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.imglike.service.BitmapIntentHelperUtil;
 import com.example.imglike.service.ImageLikedStatusUtilService;
 import com.example.imglike.R;
 
@@ -21,7 +22,7 @@ public class ImageActivity extends AppCompatActivity {
         String id = intent.getStringExtra("id");
 
         ImageView imageView = findViewById(R.id.image);
-        Bitmap bitmap = loadBitmap();
+        Bitmap bitmap = BitmapIntentHelperUtil.restoreBitmap(id);
         imageView.setImageBitmap(bitmap);
 
         ImageView likeView = findViewById(R.id.image_like);
@@ -37,19 +38,5 @@ public class ImageActivity extends AppCompatActivity {
                 likeView.setImageResource(R.drawable.ic_like_disable);
             }
         });
-
-    }
-
-    private Bitmap loadBitmap() {
-        Bitmap bmp = null;
-        String filename = getIntent().getStringExtra("image");
-        try {
-            FileInputStream is = this.openFileInput(filename);
-            bmp = BitmapFactory.decodeStream(is);
-            is.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return bmp;
     }
 }

@@ -124,8 +124,6 @@ public class FlickrImageLoaderImpl implements ImageLoader {
                 ));
                 Bitmap bmp = BitmapFactory.decodeStream(new URL(photo.getLargeUrl()).openStream());
                 data.setData(bmp);
-                data.getMetadata().setWidth(bmp.getWidth());
-                data.getMetadata().setHeight(bmp.getHeight());
                 Log.d(TAG, String.format(
                         "Mapping photo with id %s to ImageData is finished", data.getMetadata().getId()
                 ));

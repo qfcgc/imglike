@@ -18,7 +18,5 @@ public class ImageData {
     public static class ImageMetadata {
         private String id;
         private String url;
-        private int width;
-        private int height;
     }
 }

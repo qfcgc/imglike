@@ -1,56 +1,54 @@
 package com.example.imglike;
 
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ImageActivity extends AppCompatActivity {
-    public static final String EXTRA_REPLY =
-            "com.example.imglike.extra.REPLY";
-    private boolean likeFlipped;
-    private ImageDataWrapper imageDataWrapper;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 
+public class ImageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_layout);
 
-
         Intent intent = getIntent();
-        int imageId = intent.getIntExtra("imageId", 0);
-        int width = intent.getIntExtra("width", 1080);
-        String hmac = intent.getStringExtra("hmac");
-        boolean liked = intent.getBooleanExtra("liked", false);
+        String id = intent.getStringExtra("id");
 
-        ImageLoader loader = new ImageLoader(width);
-        ImageView image = findViewById(R.id.image);
-        ImageData imageData = loader.loadImageData(imageId, hmac);
-        image.setImageBitmap(imageData.getData());
-
-        imageDataWrapper = new ImageDataWrapper(
-                imageData, new SaveLikedState(
-
-                getApplicationContext().getSharedPreferences(
-                        getString(R.string.preference_file_key), Context.MODE_PRIVATE),
-                imageId, hmac)
-        );
-
+        ImageView imageView = findViewById(R.id.image);
+        Bitmap bitmap = loadBitmap();
+        imageView.setImageBitmap(bitmap);
 
         ImageView likeView = findViewById(R.id.image_like);
-        if (liked) {
+        if (ImageLikedStatusUtilService.isLiked(id)) {
             likeView.setImageResource(R.drawable.ic_like_enable);
         }
         likeView.setOnClickListener(v -> {
-            if (!imageDataWrapper.getSaveLikedState().getLiked()) {
-                imageDataWrapper.getSaveLikedState().setLiked(true);
+            if (!ImageLikedStatusUtilService.isLiked(id)) {
+                ImageLikedStatusUtilService.refreshLiked(id, true);
                 likeView.setImageResource(R.drawable.ic_like_enable);
             } else {
-                imageDataWrapper.getSaveLikedState().setLiked(false);
+                ImageLikedStatusUtilService.refreshLiked(id, false);
                 likeView.setImageResource(R.drawable.ic_like_disable);
             }
         });
 
+    }
+
+    private Bitmap loadBitmap() {
+        Bitmap bmp = null;
+        String filename = getIntent().getStringExtra("image");
+        try {
+            FileInputStream is = this.openFileInput(filename);
+            bmp = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bmp;
     }
 }

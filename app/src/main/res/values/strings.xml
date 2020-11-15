@@ -5,4 +5,6 @@
     <string name="app_icon">App icon</string>
     <string name="app_name_stub">App name stub</string>
     <string name="app_description_stub">App description stub: application is very interesting and useful</string>
+    <string name="image_content_description">Picture</string>
+    <string name="picture_like_icon">Picture like icon</string>
 </resources>

@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+@Deprecated
 public class SaveLikedState implements Serializable {
     private SharedPreferences sharedPreferences;
     private String id;

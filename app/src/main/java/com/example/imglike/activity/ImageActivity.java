@@ -1,4 +1,4 @@
-package com.example.imglike;
+package com.example.imglike.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -6,8 +6,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.imglike.service.ImageLikedStatusUtilService;
+import com.example.imglike.R;
 
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 
 public class ImageActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package com.example.imglike;
+package com.example.imglike.repository;
 
 import android.content.SharedPreferences;
 import android.util.Log;

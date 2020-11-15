@@ -1,4 +1,4 @@
-package com.example.imglike;
+package com.example.imglike.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.imglike.R;
 
 public class PartnersActivity extends AppCompatActivity {
     private PackageManager pm;

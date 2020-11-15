@@ -1,4 +1,4 @@
-package com.example.imglike;
+package com.example.imglike.activity.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.imglike.R;
+import com.example.imglike.activity.ImageActivity;
+import com.example.imglike.activity.MainActivity;
+import com.example.imglike.model.ImageData;
+import com.example.imglike.service.ImageLikedStatusUtilService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;

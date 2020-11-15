@@ -1,4 +1,6 @@
-package com.example.imglike;
+package com.example.imglike.service.loader;
+
+import com.example.imglike.model.ImageData;
 
 import java.util.List;
 

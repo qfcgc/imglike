@@ -1,4 +1,4 @@
-package com.example.imglike;
+package com.example.imglike.repository;
 
 public interface ImageLikedRepository {
     boolean isLiked(String id);

@@ -1,4 +1,4 @@
-package com.example.imglike;
+package com.example.imglike.exception;
 
 public class ImageLoadingException extends RuntimeException {
     public ImageLoadingException() {

@@ -1,5 +1,6 @@
-package com.example.imglike;
+package com.example.imglike.service;
 
+import com.example.imglike.repository.ImageLikedRepository;
 import lombok.Setter;
 import lombok.experimental.UtilityClass;
 

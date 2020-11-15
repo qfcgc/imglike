@@ -1,4 +1,4 @@
-package com.example.imglike;
+package com.example.imglike.model;
 
 import android.graphics.Bitmap;
 import lombok.AllArgsConstructor;

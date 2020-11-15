@@ -1,10 +1,12 @@
-package com.example.imglike;
+package com.example.imglike.service.loader;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.Log;
 import androidx.annotation.RequiresApi;
+import com.example.imglike.exception.ImageLoadingException;
+import com.example.imglike.model.ImageData;
 import com.googlecode.flickrjandroid.Flickr;
 import com.googlecode.flickrjandroid.FlickrException;
 import com.googlecode.flickrjandroid.photos.Extras;

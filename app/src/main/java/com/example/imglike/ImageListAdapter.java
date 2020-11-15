@@ -56,9 +56,9 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
     static class ImageViewHolder extends RecyclerView.ViewHolder {
         public final ImageView imageItemView;
         public final ImageView likeView;
+        private final MainActivity mainActivity;
         public List<ImageData> images;
         private ImageData image;
-        private final MainActivity mainActivity;
 
         public ImageViewHolder(View itemView, MainActivity mainActivity) {
             super(itemView);
@@ -118,7 +118,6 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
 
                 //Cleanup
                 stream.close();
-//                image.getData().recycle();
 
                 //Pop intent
                 intent.putExtra("image", filename);

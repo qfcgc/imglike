@@ -10,65 +10,62 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.imglike.*;
+import com.example.imglike.R;
 import com.example.imglike.activity.adapter.ImageListAdapter;
+import com.example.imglike.repository.SharedPreferencesImageLikedRepository;
 import com.example.imglike.service.ImageLikedStatusUtilService;
 import com.example.imglike.service.loader.FlickrImageLoaderImpl;
 import com.example.imglike.service.loader.ImageLoader;
-import com.example.imglike.model.ImageData;
-import com.example.imglike.repository.SharedPreferencesImageLikedRepository;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends AppCompatActivity {
     public static final int PAGE_SIZE = 30;
-    private final List<ImageData> imagesList = new ArrayList<>();
-    private ImageListAdapter mAdapter;
+    private final AtomicInteger PAGE_INDEX = new AtomicInteger(2);
     private ImageLoader imageLoader;
+    private ImageListAdapter imageListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageLoader = new FlickrImageLoaderImpl();
+        initializeServices();
+        this.imageLoader = initializeImageLoader();
+        this.imageListAdapter = initializeImageListAdapter(this.imageLoader);
+        initializeRecyclerView(this.imageListAdapter);
+    }
 
+    private void initializeServices() {
         ImageLikedStatusUtilService.setRepository(
                 new SharedPreferencesImageLikedRepository(
                         getSharedPreferences("ImageLikedRepository", Context.MODE_PRIVATE)
                 )
         );
+    }
 
-        imagesList.addAll(imageLoader.findPage(PAGE_SIZE, 1));
+    private ImageLoader initializeImageLoader() {
+        return new FlickrImageLoaderImpl();
+    }
 
-        // Get a handle to the RecyclerView.
+    private ImageListAdapter initializeImageListAdapter(ImageLoader imageLoader) {
+        ImageListAdapter imageListAdapter = new ImageListAdapter(this, new ArrayList<>());
+        imageListAdapter.getImages().addAll(imageLoader.findPage(PAGE_SIZE, 1));
+        return imageListAdapter;
+    }
+
+    private void initializeRecyclerView(ImageListAdapter imageListAdapter) {
         RecyclerView mRecyclerView = findViewById(R.id.image_scroll_view);
-        // Create an adapter and supply the data to be displayed.
-        mAdapter = new ImageListAdapter(this, imagesList);
-        // Connect the adapter with the RecyclerView.
-        mRecyclerView.setAdapter(mAdapter);
-        // Give the RecyclerView a default layout manager.
+        mRecyclerView.setAdapter(imageListAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        final AtomicInteger pageIndex = new AtomicInteger(2);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (!recyclerView.canScrollVertically(1)) {
-                    imagesList.addAll(imageLoader.findPage(PAGE_SIZE, pageIndex.getAndIncrement()));
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-        });
+        mRecyclerView.addOnScrollListener(new ImagesOnScrollListener());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mAdapter.notifyDataSetChanged();
+        imageListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -88,5 +85,16 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 10, bundle);
 
         return res;
+    }
+
+    private class ImagesOnScrollListener extends RecyclerView.OnScrollListener {
+        @Override
+        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            if (!recyclerView.canScrollVertically(1)) {
+                imageListAdapter.getImages().addAll(imageLoader.findPage(PAGE_SIZE, PAGE_INDEX.getAndIncrement()));
+                imageListAdapter.notifyDataSetChanged();
+            }
+        }
     }
 }

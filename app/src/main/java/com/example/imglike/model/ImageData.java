@@ -18,5 +18,9 @@ public class ImageData {
     public static class ImageMetadata {
         private String id;
         private String url;
+
+        public ImageMetadata(String id) {
+            this.id = id;
+        }
     }
 }

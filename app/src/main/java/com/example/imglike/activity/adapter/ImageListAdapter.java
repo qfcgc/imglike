@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.imglike.R;
 import com.example.imglike.activity.ImageActivity;
@@ -25,10 +26,10 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
     @Getter
     private final List<ImageData> images;
     private final LayoutInflater inflater;
-    private final MainActivity mainActivity;
+    private final AppCompatActivity mainActivity;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public ImageListAdapter(MainActivity context,
+    public ImageListAdapter(AppCompatActivity context,
                             List<ImageData> imageList) {
         this.mainActivity = context;
         this.inflater = LayoutInflater.from(context);
@@ -56,10 +57,10 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
 
     static class ImageViewHolder extends RecyclerView.ViewHolder {
         private final View itemView;
-        private final MainActivity mainActivity;
+        private final AppCompatActivity mainActivity;
         private ImageDataPresenter imageDataPresenter;
 
-        public ImageViewHolder(View itemView, MainActivity mainActivity) {
+        public ImageViewHolder(View itemView, AppCompatActivity mainActivity) {
             super(itemView);
             this.itemView = itemView;
             this.mainActivity = mainActivity;

@@ -72,6 +72,9 @@ public class FlickrImageLoaderImpl implements ImageLoader {
             Log.e(TAG, "loadPhotoList: error loading photolist", e);
             throw new ImageLoadingException(e);
         }
+        if (photoList == null) {
+            return loadPhotoList(pageSize, pageIndex);
+        }
         Log.d(TAG, "Loading photo list is finished");
         return photoList;
     }

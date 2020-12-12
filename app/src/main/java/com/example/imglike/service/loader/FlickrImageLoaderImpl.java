@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 import com.example.imglike.exception.ImageLoadingException;
 import com.example.imglike.model.ImageData;
+import com.example.imglike.service.ImagesCacheUtilService;
 import com.googlecode.flickrjandroid.Flickr;
 import com.googlecode.flickrjandroid.FlickrException;
 import com.googlecode.flickrjandroid.photos.Extras;
@@ -56,7 +57,18 @@ public class FlickrImageLoaderImpl implements ImageLoader {
     public List<ImageData> findPage(int pageSize, int pageIndex) {
         PhotoList photoList = loadPhotoList(pageSize, pageIndex);
 
-        return mapPhotoListToListOfImageDataObjects(photoList);
+        Log.i(TAG, "Attempt to load images from cache service");
+        List<ImageData> cachedImages = ImagesCacheUtilService.getCachedImagesForPage(pageIndex);
+        if (cachedImages == null) {
+            Log.i(TAG, "Images are not found in cache");
+            List<ImageData> images = mapPhotoListToListOfImageDataObjects(photoList);
+            ImagesCacheUtilService.cacheImages(pageIndex, images);
+            Log.i(TAG, "Images are cached");
+            return images;
+        } else {
+            Log.i(TAG, "Images are found in cache");
+            return cachedImages;
+        }
     }
 
     private PhotoList loadPhotoList(int pageSize, int pageIndex) {

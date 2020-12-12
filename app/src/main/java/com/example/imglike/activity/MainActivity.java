@@ -45,4 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
         return res;
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        presenter.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        presenter.onRestoreInstanceState(savedInstanceState);
+        super.onRestoreInstanceState(savedInstanceState);
+    }
 }

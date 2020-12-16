@@ -28,8 +28,8 @@ public class ScrollPresenterInitHelper {
         );
     }
 
-    public ImageLoader initializeImageLoader() {
-        return new FlickrImageLoaderImpl();
+    public ImageLoader initializeImageLoader(Context context) {
+        return new FlickrImageLoaderImpl(context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

@@ -36,7 +36,7 @@ public class ScrollPresenter {
         ScrollPresenterInitHelper.initializeServices(scrollActivity);
 
         this.scrollActivity = scrollActivity;
-        this.imageLoader = ScrollPresenterInitHelper.initializeImageLoader();
+        this.imageLoader = ScrollPresenterInitHelper.initializeImageLoader(scrollActivity.getApplicationContext());
         this.imageListAdapter = ScrollPresenterInitHelper.initializeImageListAdapter(scrollActivity, this.imageLoader);
         initializeRecyclerView(this.imageListAdapter);
     }

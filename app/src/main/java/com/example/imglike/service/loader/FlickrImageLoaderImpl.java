@@ -1,7 +1,9 @@
 package com.example.imglike.service.loader;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.util.Log;
 import androidx.annotation.RequiresApi;
@@ -34,9 +36,11 @@ public class FlickrImageLoaderImpl implements ImageLoader {
     private static final String TAG = FlickrImageLoaderImpl.class.getName();
     private final Flickr flickr = new Flickr(FLICKR_API_KEY, FLICKR_API_SECRET);
     private SearchParameters searchParams;
+    private Context context;
 
-    public FlickrImageLoaderImpl() {
+    public FlickrImageLoaderImpl(Context context) {
         init();
+        this.context = context;
     }
 
     protected void init() {
@@ -55,19 +59,24 @@ public class FlickrImageLoaderImpl implements ImageLoader {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public List<ImageData> findPage(int pageSize, int pageIndex) {
-        PhotoList photoList = loadPhotoList(pageSize, pageIndex);
+        try {
+            PhotoList photoList = loadPhotoList(pageSize, pageIndex);
 
-        Log.i(TAG, "Attempt to load images from cache service");
-        List<ImageData> cachedImages = ImagesCacheUtilService.getCachedImagesForPage(pageIndex);
-        if (cachedImages == null) {
-            Log.i(TAG, "Images are not found in cache");
-            List<ImageData> images = mapPhotoListToListOfImageDataObjects(photoList);
-            ImagesCacheUtilService.cacheImages(pageIndex, images);
-            Log.i(TAG, "Images are cached");
-            return images;
-        } else {
-            Log.i(TAG, "Images are found in cache");
-            return cachedImages;
+            Log.i(TAG, "Attempt to load images from cache service");
+            List<ImageData> cachedImages = ImagesCacheUtilService.getCachedImagesForPage(pageIndex);
+            if (cachedImages == null) {
+                Log.i(TAG, "Images are not found in cache");
+                List<ImageData> images = mapPhotoListToListOfImageDataObjects(photoList);
+                ImagesCacheUtilService.cacheImages(pageIndex, images);
+                Log.i(TAG, "Images are cached");
+                return images;
+            } else {
+                Log.i(TAG, "Images are found in cache");
+                return cachedImages;
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "Exception during scanning, repeating", e);
+            return findPage(pageSize, pageIndex);
         }
     }
 
@@ -77,18 +86,36 @@ public class FlickrImageLoaderImpl implements ImageLoader {
         Callable<PhotoList> callable =
                 () -> flickr.getPhotosInterface().search(searchParams, pageSize, pageIndex);
         Future<PhotoList> future = pool.submit(callable);
-        PhotoList photoList;
+        PhotoList photoList = null;
         try {
             photoList = future.get();
         } catch (ExecutionException | InterruptedException e) {
             Log.e(TAG, "loadPhotoList: error loading photolist", e);
-            throw new ImageLoadingException(e);
+            waitForNetwork();
         }
         if (photoList == null) {
             return loadPhotoList(pageSize, pageIndex);
         }
         Log.d(TAG, "Loading photo list is finished");
         return photoList;
+    }
+
+    private void waitForNetwork() {
+        while (!isNetworkConnected()) {
+            Log.w(TAG,"Network in not available, waiting for 2 seconds");
+            try {
+                Thread.sleep(2000); //fixme: avoid busy waiting
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+        }
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

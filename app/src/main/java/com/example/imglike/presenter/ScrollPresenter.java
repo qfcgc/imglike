@@ -3,6 +3,8 @@ package com.example.imglike.presenter;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +33,7 @@ public class ScrollPresenter {
     private final AppCompatActivity scrollActivity;
     private ImagesOnScrollListener listener;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ScrollPresenter(AppCompatActivity scrollActivity) {
@@ -39,6 +42,7 @@ public class ScrollPresenter {
         this.scrollActivity = scrollActivity;
         this.imageLoader = ScrollPresenterInitHelper.initializeImageLoader(scrollActivity.getApplicationContext());
         this.imageListAdapter = ScrollPresenterInitHelper.initializeImageListAdapter(scrollActivity, this.imageLoader);
+        this.progressBar = scrollActivity.findViewById(R.id.progressBar);
         initializeRecyclerView(this.imageListAdapter);
     }
 
@@ -110,12 +114,17 @@ public class ScrollPresenter {
                 if (!isLoading && shouldLoadImages()) {
                     Log.i(TAG, "Starting loading images");
                     isLoading = true;
+                    progressBar.setVisibility(View.VISIBLE);
                     Executors.newSingleThreadExecutor().submit(() -> {
                         Log.i(TAG, "Starting loading images process");
                         loaded.addAll(imageLoader.findPage(PAGE_SIZE, PAGE_INDEX.incrementAndGet()));
                         isLoading = false;
                         Log.i(TAG, "Loading images process is finished");
                     });
+                } else if (!isLoading) {
+                    if (progressBar.getVisibility() != View.GONE) {
+                        progressBar.setVisibility(View.GONE);
+                    }
                 }
             }
         }

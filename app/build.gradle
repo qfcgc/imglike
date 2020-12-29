@@ -47,6 +47,7 @@ dependencies {
     implementation 'org.slf4j:slf4j-android:1.7.30'
     implementation 'com.googlecode.flickrj-android:flickrj-android:2.1.0'
     implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.github.ksoichiro:android-observablescrollview:1.6.0'
     compileOnly('org.projectlombok:lombok:1.18.16')
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
 }

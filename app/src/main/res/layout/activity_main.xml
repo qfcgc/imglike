@@ -7,9 +7,9 @@
         tools:context=".activity.MainActivity"
         android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
             android:id="@+id/image_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
 </LinearLayout>

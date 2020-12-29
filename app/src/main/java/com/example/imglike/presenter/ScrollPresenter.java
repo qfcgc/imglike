@@ -12,6 +12,7 @@ import com.example.imglike.R;
 import com.example.imglike.activity.adapter.ImageListAdapter;
 import com.example.imglike.model.ImageData;
 import com.example.imglike.service.loader.ImageLoader;
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +48,10 @@ public class ScrollPresenter {
     }
 
     private void initializeRecyclerView(ImageListAdapter imageListAdapter) {
-        this.recyclerView = scrollActivity.findViewById(R.id.image_scroll_view);
+        ObservableRecyclerView observableRecyclerView = scrollActivity.findViewById(R.id.image_scroll_view);
+        observableRecyclerView.setScrollViewCallbacks(new ObservableRecyclerViewScrollCallback(
+                scrollActivity.getSupportActionBar()));
+        this.recyclerView = observableRecyclerView;
         this.recyclerView.setAdapter(imageListAdapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(scrollActivity));
         this.listener = new ImagesOnScrollListener();
